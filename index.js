@@ -1,67 +1,27 @@
-const film = document.getElementById('film');
+// la recherche de l'utilisateur
+const query = document.getElementById('query').value;
+// bouton de recherche
+const search = document.getElementById('search');
+// l'url de base de l'API
+const url = 'https://imdb-api.com/en/API/SearchMovie/k_7wu03o0q/';
+
+// la fonction qui récupère les données correspondant à la recherche
 async function getFilm(){
     try{
-        const reponse = await fetch('http://www.omdbapi.com/?i=tt3896198&apikey=7cfb6335');
-        const result = await reponse.json();
-        const film = document.getElementById('titre');
-        film.textContent = result.Title;
-        for(property in result){
-            let line = document.createElement('li');
-            if(property === 'Poster'){
-                line.innerHTML = `<img src="${result[property]}"></img>`;
-            } else if (property === 'Ratings') {
-                for (rating of result[property]){
-                    line.textContent = `${rating.Source} : ${rating.Value}`;
-                }
-            } else {
-                line.textContent = `${property} : ${result[property]}`;
-            }
-            const list = document.getElementById('film');
-            list.appendChild(line)
-        }
+        const endpoint = url + query;
+        const request = await fetch(endpoint);
+        const result = await request.json();
+        console.log(result)
     }
-    catch(error){
-        console.log(error)
+    catch (error){
+    console.log(error)
     }
 }
-getFilm();
+//fonction qui montre les résultats
+const displayFilm = (event) =>{
+    event.preventDefault;
+    console.log(getFilm());
+}
 
-
-
-
-// const getFilm = new XMLHttpRequest();
-// getFilm.onreadystatechange = function(){
-//     if(this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-//         let response = JSON.parse(this.responseText);
-//         const film = document.getElementById('titre');
-//         film.textContent = response.Title;
-//         for(property in response){
-//             let ligne = document.createElement('li');
-//             if (property === "Poster") {
-//                 ligne.innerHTML = `<img src="${response[property]}"></img>`;
-//             } else if (property === 'Ratings') { 
-//                 let rates = document.createElement('ul');
-//                 for(rating of response[property]) {
-//                     console.log(rating)
-//                     let ratesLine = document.createElement('li');
-//                     ratesLine.textContent = `${rating.Source} : ${rating.Value}`;
-//                     rates.appendChild(ratesLine);
-//                     ligne.appendChild(rates);
-//                 }
-//             } else {
-//                 ligne.textContent = `${property} : ${response[property]}`;
-//             }
-//             let list = document.getElementById('film');
-//             list.appendChild(ligne);
-//         }
-//     }
-// }
-// getFilm.open('GET', 'http://www.omdbapi.com/?i=tt3896198&apikey=7cfb6335');
-// getFilm.send();
-
-// const getFilm = async () => {
-//     const response = await fetch('http://www.omdbapi.com/?i=tt3896198&apikey=7cfb6335');
-//     const responseJson = await response.json();
-//     console.log(responseJson)
-
-// }
+//resultats 
+search.addEventListener('submit', displayFilm)
