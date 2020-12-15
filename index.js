@@ -4,9 +4,28 @@ const getFilm = new XMLHttpRequest();
 getFilm.onreadystatechange = function(){
     if(this.readyState == XMLHttpRequest.DONE && this.status == 200) {
         let response = JSON.parse(this.responseText);
-        console.log(response.Title)
-        const film = document.getElementById('film');
+        
+        const film = document.getElementById('titre');
         film.textContent = response.Title;
+        for(property in response){
+            let ligne = document.createElement('li');
+            if (property === "Poster") {
+                ligne.innerHTML = `<img src="${response[property]}"></img>`;
+            } else if (property === 'Ratings') { 
+                let rates = document.createElement('ul');
+                for(rating of response[property]) {
+                    console.log(rating)
+                    let ratesLine = document.createElement('li');
+                    ratesLine.textContent = `${rating.Source} : ${rating.Value}`;
+                    rates.appendChild(ratesLine);
+                    ligne.appendChild(rates);
+                }
+            } else {
+                ligne.textContent = `${property} : ${response[property]}`;
+            }
+            let list = document.getElementById('film');
+            list.appendChild(ligne);
+        }
     }
 }
 getFilm.open('GET', 'http://www.omdbapi.com/?i=tt3896198&apikey=7cfb6335');
