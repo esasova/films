@@ -26,18 +26,20 @@ async function getFilm(){
 }
 
 //resultats 
-search.addEventListener('click', getFilm);
+search.addEventListener('click', function(){
+    getFilm();
+    section.innerHTML = '';
+});
 
-//la section des résultats
+//la section où sont stockés les resultats
 const section = document.getElementById('choice');
 
-
-//la fonction qui itère l'array des résultats
+//la fonction qui itère l'array des résultats et affiche les données
 const affichage = (tableau) =>{
     for(objet of tableau){
         const article = document.createElement('article');
         section.appendChild(article);
-        article.classList.add('col-12 col-md-6 col-4')
+        article.classList.add('col-4');
         for(element in objet) {
             if(element === 'title'){
                 let titre = document.createElement('h3');
