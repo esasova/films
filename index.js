@@ -42,22 +42,30 @@ const affichage = (tableau) =>{
                 let titre = document.createElement('a');
                 titre.href = '#';
                 titre.textContent = `${objet[element]}`;
-                article.appendChild(titre)
+                article.appendChild(titre);
+//récupération de l'id IMDB du film pour la recherche par id (plus détaillée)
                 const newUrl = 'https://imdb-api.com/en/API/Title/k_7wu03o0q/';
                 const newEndpoint = `${newUrl}${objet.id}`;
                 titre.addEventListener('click', async function getDetails(e){
                     e.preventDefault;
+//envoie de requête à l'API avec l'id du film
                     try{
                         const newReq = await fetch(newEndpoint);
                         const newRes = await newReq.json();
+//fonction qui affiche les résultats de la deuxième requête (il faut la sortir de cette fonction)
                         const popup = document.createElement('aside');
                         section.appendChild(popup);
+                        const bouton = document.createElement('button');
+                        bouton.textContent = 'X';
+                        bouton.id = 'bouton';
+                        popup.appendChild(bouton);
                         let list = document.createElement('ul');
                         popup.appendChild(list);
                         for (property in newRes){
                         let line = document.createElement('li');
                         line.textContent = `${newRes[property]}`;
                         list.appendChild(line)
+//fin de la fonction d'affichage
                         }
                     }
                     catch(error){
@@ -78,17 +86,3 @@ const affichage = (tableau) =>{
         }
     }
 }
-
-
-//la fonction qui envoie les données détaillées du film en cliquant sur le titre
-
-                    // section.appendChild(popup);
-                    // async function showDetails(){
-                    //     try{
-                    //         const newReq = await fetch(newEndpoint);
-                    //         const newRes = await newReq.json();
-                    //         console.log(newRes);
-                    //     } catch(error){
-                    //         console.log(error)
-                    //     }
-                    // }
