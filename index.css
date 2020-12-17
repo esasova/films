@@ -29,10 +29,27 @@ aside {
     right: 15%;
     overflow: scroll;
 }
-.reqField {
+.reqField{
     display: flex;
     justify-content: center;
     margin-top: 5%;
+}
+#query{
+    width: 50%;
+    font-size: 2em;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid #636363;
+    background-color:  #4C4C4C;
+    color: #D1D1D1;
+}
+#search{
+    width: 10%;
+    border: 1px solid #D1D1D1;
+    margin-left: 1%;
+    background-color:  #4C4C4C;
+    color: #D1D1D1;
 }
 @media screen and (max-width: 450px) {
     h1{

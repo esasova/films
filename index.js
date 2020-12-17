@@ -73,6 +73,7 @@ const showFilms = (filmsArray) =>{
         }
     }
 }
+//fonction qui  affiche les infos détaillées dans un popup
 const showDetails = (filmDetails) =>{
     const popup = document.createElement('aside');
     section.appendChild(popup);
