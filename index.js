@@ -12,13 +12,13 @@ const section = document.getElementById('choice');
 
 
 // la fonction qui récupère les données correspondant à la recherche
-async function getFilm(){
+async function getFilms(){
     const query = input.value;
     const endpoint = `${url}${query}`;
     try{
         const request = await fetch(endpoint);
         const result = await request.json();
-        affichage(result.results)
+        showFilms(result.results)
     }
     catch (error){
     console.log(error)
@@ -27,30 +27,30 @@ async function getFilm(){
 
 //resultats 
 search.addEventListener('click', function(){
-    getFilm();
+    getFilms();
     section.innerHTML = '';
 });
 
-const affichage = (tableau) =>{
-    for(objet of tableau){
+const showFilms = (filmsArray) =>{
+    for(objet of filmsArray){
         const article = document.createElement('article');
         section.appendChild(article);
-        article.classList.add('col-4');
-        for(element in objet) {
+        article.classList.add('col-12', 'col-md-6', 'col-lg-4');
+        for(element in filmObject) {
             if(element === 'title'){
-                let titre = document.createElement('h3');
-                titre.textContent = `${objet[element]}`;
-                article.appendChild(titre);
+                let filmTitle = document.createElement('h3');
+                filmTitle.textContent = `${filmObject[element]}`;
+                article.appendChild(filmTitle);
 //récupération de l'id IMDB du film pour la recherche par id (plus détaillée)
                 const newUrl = 'https://imdb-api.com/en/API/Title/k_7wu03o0q/';
-                const newEndpoint = `${newUrl}${objet.id}`;
-                titre.addEventListener('click', async function reqDetails(e){
+                const newEndpoint = `${newUrl}${filmObject.id}`;
+                filmTitle.addEventListener('click', async function getDetails(e){
                     e.preventDefault;
 //envoie de requête à l'API avec l'id du film
                     try{
                         const newReq = await fetch(newEndpoint);
                         const newRes = await newReq.json();
-                        getDetails(newRes)
+                        showDetails(newRes)
 //fonction qui affiche les résultats de la deuxième requête
                         
 //fin de la fonction d'affichage
@@ -73,7 +73,7 @@ const affichage = (tableau) =>{
         }
     }
 }
-const getDetails = (table) =>{
+const showDetails = (filmDetails) =>{
     const popup = document.createElement('aside');
     section.appendChild(popup);
     const bouton = document.createElement('button');
@@ -82,9 +82,9 @@ const getDetails = (table) =>{
     popup.appendChild(bouton);
                             let list = document.createElement('ul');
     popup.appendChild(list);
-    for (property in table){
+    for (property in filmDetails){
     let line = document.createElement('li');
-    line.textContent = `${table[property]}`;
+    line.textContent = `${filmDetails[property]}`;
     list.appendChild(line);
     bouton.addEventListener('click', ()=>{
         popup.innerHTML = '';
