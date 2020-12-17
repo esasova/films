@@ -31,7 +31,6 @@ search.addEventListener('click', function(){
     section.innerHTML = '';
 });
 
-//la fonction qui itère l'array des résultats et affiche les données
 const affichage = (tableau) =>{
     for(objet of tableau){
         const article = document.createElement('article');
@@ -39,35 +38,23 @@ const affichage = (tableau) =>{
         article.classList.add('col-4');
         for(element in objet) {
             if(element === 'title'){
-                let titre = document.createElement('a');
-                titre.href = '#';
+                let titre = document.createElement('h3');
                 titre.textContent = `${objet[element]}`;
                 article.appendChild(titre);
 //récupération de l'id IMDB du film pour la recherche par id (plus détaillée)
                 const newUrl = 'https://imdb-api.com/en/API/Title/k_7wu03o0q/';
                 const newEndpoint = `${newUrl}${objet.id}`;
-                titre.addEventListener('click', async function getDetails(e){
+                titre.addEventListener('click', async function reqDetails(e){
                     e.preventDefault;
 //envoie de requête à l'API avec l'id du film
                     try{
                         const newReq = await fetch(newEndpoint);
                         const newRes = await newReq.json();
-//fonction qui affiche les résultats de la deuxième requête (il faut la sortir de cette fonction)
-                        const popup = document.createElement('aside');
-                        section.appendChild(popup);
-                        const bouton = document.createElement('button');
-                        bouton.textContent = 'X';
-                        bouton.id = 'bouton';
-                        popup.appendChild(bouton);
-                        let list = document.createElement('ul');
-                        popup.appendChild(list);
-                        for (property in newRes){
-                        let line = document.createElement('li');
-                        line.textContent = `${newRes[property]}`;
-                        list.appendChild(line)
+                        getDetails(newRes)
+//fonction qui affiche les résultats de la deuxième requête
+                        
 //fin de la fonction d'affichage
                         }
-                    }
                     catch(error){
                         console.log(error)
                     }
@@ -86,3 +73,21 @@ const affichage = (tableau) =>{
         }
     }
 }
+const getDetails = (table) =>{
+    const popup = document.createElement('aside');
+    section.appendChild(popup);
+    const bouton = document.createElement('button');
+    bouton.textContent = 'X';
+    bouton.id = 'bouton';
+    popup.appendChild(bouton);
+                            let list = document.createElement('ul');
+    popup.appendChild(list);
+    for (property in table){
+    let line = document.createElement('li');
+    line.textContent = `${table[property]}`;
+    list.appendChild(line);
+    bouton.addEventListener('click', ()=>{
+        popup.innerHTML = '';
+        section.removeChild(popup);
+    })
+}}
