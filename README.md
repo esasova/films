@@ -1,5 +1,8 @@
 # films
 Un projet de site qui références les films et donne des infos récurépées à l'aide d'API (en collaboration avec abi-38).
+Répository du projet final : 
+https://github.com/abi-38/challenge-Rama
+
 API utilisée :
 https://imdb-api.com/ 
 
